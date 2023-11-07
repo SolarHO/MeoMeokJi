@@ -28,35 +28,35 @@
         <img class="logokey-NDo" src="./assets/logokey-GU9.png"/>
         <div class="auto-group-3gv5-hG5">
           <p class="item--eh7">비밀번호 확인</p>
-          <input class="item--xSu" type="password" name="passwordcheck" id="passwordcheck" placeholder="***********" required>
+          <input class="item--xSu" type="password" name="passwordcheck" id="passwordcheck" required>
         </div>
       </div>
       <div class="password-URF">
         <img class="logokey-PYD" src="./assets/logokey-4ob.png"/>
         <div class="auto-group-ymwx-tzm">
           <p class="item--4PT">비밀번호</p>
-          <input class="item--Bys" type="password" name="password" id="password" placeholder="***********" required>
+          <input class="item--Bys" type="password" name="password" id="password" required>
         </div>
       </div>
       <div class="email-KaH">
         <img class="emaillogo-RtD" src="./assets/emaillogo.png"/>
         <div class="auto-group-7ub3-jtu">
           <p class="item--W8y">이메일</p>
-          <input class="examplenavercom-qS9" type="email" name="email" placeholder="example@naver.com" required>
+          <input class="examplenavercom-qS9" type="email" name="email" required>
         </div>
       </div>
       <div class="id-Zd3">
         <img class="userid-5LV" src="./assets/userid.png"/>
         <div class="auto-group-racy-c5X">
           <p class="item--YUy">아이디</p>
-          <input class="kdhong-t33" type="text" name="id" placeholder="kdhong" required>
+          <input class="kdhong-t33" type="text" name="id" required>
         </div>
       </div>
       <div class="name-ND7">
         <img class="username-r8H" src="./assets/username.png"/>
         <div class="auto-group-2sgh-BAZ">
           <p class="item--8rV">이름</p>
-          <input class="item--TNy" type="text" name="name" placeholder="홍길동" required>
+          <input class="item--TNy" type="text" name="name" required>
         </div>
       </div>
       </form>

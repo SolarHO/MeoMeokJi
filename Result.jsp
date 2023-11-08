@@ -15,6 +15,8 @@
             <th>Link</th>
             <th>Category</th>
             <th>Address</th>
+            <th>Latitude</th> <!-- 위도 -->
+    		<th>Longitude</th> <!-- 경도 -->
         </tr>
         <%
         List<RestaurantInfo> restaurantList = (List<RestaurantInfo>) request.getAttribute("restaurantList");
@@ -26,6 +28,8 @@
             <td><a href="<%= restaurant.getLink() %>"><%= restaurant.getLink() %></a></td>
             <td><%= restaurant.getCategory() %></td>
             <td><%= restaurant.getAddress() %></td>
+            <td><%= restaurant.getMapx() %></td>
+            <td><%= restaurant.getMapy() %></td>
         </tr>
         <%
             }

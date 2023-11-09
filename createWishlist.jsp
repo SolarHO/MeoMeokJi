@@ -20,7 +20,7 @@
     <h1>새 위시리스트 생성</h1>
     <form action="createWishlist.jsp" method="post">
     <label for="wlname">위시리스트 이름:</label>
-    <input type="text" id="wlname" name="wlname" required>
+    <input type="text" id="wlname" name="wname" required>
     <br>
     <label for="category">카테고리 선택:</label>
     <select id="category" name="selectedCategory" required>
@@ -48,11 +48,11 @@
     <input type="submit" value="저장">
   </form>
   <%
-    String wishlistname = request.getParameter("wishlistname");
+    String wishlistname = request.getParameter("wname");
     String selectedCategory = request.getParameter("selectedCategory");
   
     session = request.getSession();
-    String userId = (String) session.getAttribute("userId");
+    String userId = (String) session.getAttribute("id");
   
     // 위시리스트 ID와 카테고리 연결 ID 생성 (임의로 또는 UUID 사용)
     String wishlistId = "W-" + UUID.randomUUID().toString().replace("-", "");
@@ -78,6 +78,7 @@
       pst.close();
     } catch (SQLException e) {
       e.printStackTrace();
+      
     }
   %>
 </body>

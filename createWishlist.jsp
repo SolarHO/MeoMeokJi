@@ -16,16 +16,16 @@
 </head>
 <body>
     <%@ include file="./dbconn.jsp" %>
-    request.setCharacterEncoding("UTF-8");
     <h1>새 위시리스트 생성</h1>
     <form action="createWishlist.jsp" method="post">
     <label for="wlname">위시리스트 이름:</label>
-    <input type="text" id="wlname" name="wname" required>
+    <input type="text" id="wlname" name="wlname" required>
     <br>
     <label for="category">카테고리 선택:</label>
     <select id="category" name="selectedCategory" required>
       <option value="" disabled selected>카테고리 선택</option>
       <%
+      	request.setCharacterEncoding("UTF-8");
         try {
           String selectCategorySQL = "SELECT C_Id, C_name FROM category";
           PreparedStatement pstmt = conn.prepareStatement(selectCategorySQL);
@@ -48,15 +48,15 @@
     <input type="submit" value="저장">
   </form>
   <%
-    String wishlistname = request.getParameter("wname");
+    String wishlistname = request.getParameter("wlname");
     String selectedCategory = request.getParameter("selectedCategory");
   
     session = request.getSession();
     String userId = (String) session.getAttribute("id");
   
     // 위시리스트 ID와 카테고리 연결 ID 생성 (임의로 또는 UUID 사용)
-    String wishlistId = "W-" + UUID.randomUUID().toString().replace("-", "");
-    String WC_Id = "WC-" + UUID.randomUUID().toString().replace("-", "");
+    String wishlistId = "W-" + UUID.randomUUID().toString().replace("-", "").substring(0, 7);;
+    String WC_Id = "WC-" + UUID.randomUUID().toString().replace("-", "").substring(0, 8);;
   
     try {
       // 데이터베이스에 위시리스트 정보 저장
@@ -78,7 +78,6 @@
       pst.close();
     } catch (SQLException e) {
       e.printStackTrace();
-      
     }
   %>
 </body>

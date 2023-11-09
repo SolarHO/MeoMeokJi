@@ -15,9 +15,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%@ include file="dbConnection.jsp" %>
-  <h1>새 위시리스트 생성</h1>
-  <form action="createWishlist.jsp" method="post">
+    <%@ include file="./dbconn.jsp" %>
+    request.setCharacterEncoding("UTF-8");
+    <h1>새 위시리스트 생성</h1>
+    <form action="createWishlist.jsp" method="post">
     <label for="wlname">위시리스트 이름:</label>
     <input type="text" id="wlname" name="wlname" required>
     <br>
@@ -25,69 +26,58 @@
     <select id="category" name="selectedCategory" required>
       <option value="" disabled selected>카테고리 선택</option>
       <%
-        // 카테고리 데이터를 데이터베이스에서 가져와서 옵션으로 표시
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-  
         try {
-          String selectCategorySQL = "SELECT categoryid, categoryname FROM category";
-          pstmt = conn.prepareStatement(selectCategorySQL);
+          String selectCategorySQL = "SELECT C_Id, C_name FROM category";
+          PreparedStatement pstmt = conn.prepareStatement(selectCategorySQL);
           rs = pstmt.executeQuery();
-  
+
           while (rs.next()) {
-            String categoryid = rs.getString("categoryid");
-            String categoryname = rs.getString("categoryname");
+            String C_Id = rs.getString("C_Id"); //카테고리 id
+            String C_name = rs.getString("C_name"); //카테고리 이름
       %>
-      <option value="<%= categoryid %>"><%= categoryname %></option>
+      <option value="<%= C_Id %>"><%= C_name %></option>
       <%
           }
+          rs.close();
+          pstmt.close();
         } catch (SQLException e) {
           e.printStackTrace();
-        } finally {
-          if (rs != null) rs.close();
-          if (pstmt != null) pstmt.close();
-          if (conn != null) conn.close();
         }
       %>
     </select>
     <input type="submit" value="저장">
   </form>
   <%
-    String wlname = request.getParameter("wlname");
+    String wishlistname = request.getParameter("wishlistname");
     String selectedCategory = request.getParameter("selectedCategory");
   
-    HttpSession Session = request.getSession();
-    String userid = (String) Session.getAttribute("userid");
+    session = request.getSession();
+    String userId = (String) session.getAttribute("userId");
   
     // 위시리스트 ID와 카테고리 연결 ID 생성 (임의로 또는 UUID 사용)
-    String wlid = "W-" + UUID.randomUUID().toString().replace("-", "");
-    String wcid = "WC-" + UUID.randomUUID().toString().replace("-", "");
+    String wishlistId = "W-" + UUID.randomUUID().toString().replace("-", "");
+    String WC_Id = "WC-" + UUID.randomUUID().toString().replace("-", "");
   
     try {
       // 데이터베이스에 위시리스트 정보 저장
-      String insertWishlistSQL = "INSERT INTO wishlist (wlid, userid, wlname) VALUES (?, ?, ?)";
+      String insertWishlistSQL = "INSERT INTO wishlist (wishlistId, userId, wishlistname) VALUES (?, ?, ?)";
       PreparedStatement pst = conn.prepareStatement(insertWishlistSQL);
-      pst.setString(1, wlid);
-      pst.setString(2, userid);
-      pst.setString(3, wlname);
+      pst.setString(1, wishlistId);
+      pst.setString(2, userId);
+      pst.setString(3, wishlistname);
       pst.executeUpdate();
       pst.close();
   
       // 데이터베이스에 카테고리 정보 저장
-      String insertCategorySQL = "INSERT INTO wishlist_category (wcid, wlid, categoryid) VALUES (?, ?, ?)";
+      String insertCategorySQL = "INSERT INTO wishlist_category (WC_Id, wishlistId, C_Id) VALUES (?, ?, ?)";
       pst = conn.prepareStatement(insertCategorySQL);
-      pst.setString(1, wcid);
-      pst.setString(2, wlid);
+      pst.setString(1, WC_Id);
+      pst.setString(2, wishlistId);
       pst.setString(3, selectedCategory);
       pst.executeUpdate();
       pst.close();
-  
-      // 성공 페이지로 리디렉션 또는 메시지 표시
-      response.sendRedirect("success.jsp");
     } catch (SQLException e) {
       e.printStackTrace();
-      // 실패 페이지로 리디렉션 또는 오류 메시지 표시
-      response.sendRedirect("error.jsp");
     }
   %>
 </body>

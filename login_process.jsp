@@ -22,9 +22,7 @@
 		session.setAttribute("name", rs.getString("name"));
 		
 		// 로그인 이후의 페이지 \
-		msg = "search.jsp";
-		
-		
+		msg = "mmjSearch.jsp";
 	}
 	
 	response.sendRedirect(msg);

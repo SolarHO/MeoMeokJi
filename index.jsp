@@ -24,14 +24,14 @@
     <img class="logoemail-56R" src="./assets/logoemail.png"/>
     <div class="auto-group-n9td-zjB">
       <p class="item--xAD">이메일</p>
-      <input class="examplenavercom-TMs" type="text" name="userid" placeholder="example@naver.com" required>
+      <input class="examplenavercom-TMs" type="text" name="userid" required>
     </div>
   </div>
   <div class="password-yb7">
     <img class="logokey-prd" src="./assets/logokey.png"/>
     <div class="auto-group-tpjt-Y1w">
       <p class="item--Vhs">비밀번호</p>
-      <input class="item--2Su" type="password" name="password" placeholder="***********" required>
+      <input class="item--2Su" type="password" name="password" required>
     </div>
   </div>
   	<input class="buttonlogin-v2V" type="submit" value="로그인">

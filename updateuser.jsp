@@ -37,9 +37,11 @@
             int rowsAffected = pstmt.executeUpdate();
             
             if (rowsAffected > 0) {
-                out.println("회원정보가 수정되었습니다.");
+            	response.setContentType("text/html;charset=UTF-8");
+        		response.getWriter().println("<script>alert('회원정보가 수정되었습니다. 다시 로그인하십시오.'); setTimeout(function(){ window.location.href='logout.jsp'; }, 500);</script>");
             } else {
-                out.println("회원정보 수정에 실패하였습니다.");
+            	response.setContentType("text/html;charset=UTF-8");
+        		response.getWriter().println("<script>alert('회원정보 수정에 실패하였습니다. 메인페이지로 이동합니다.'); setTimeout(function(){ window.location.href='mmjSearch.jsp'; }, 500);</script>");
             }
         } else {
             out.println("새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");

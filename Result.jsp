@@ -1,3 +1,10 @@
+<%@page import="org.json.JSONArray"%>
+<%@page import="org.json.JSONObject"%>
+<%@page import="java.io.InputStreamReader"%>
+<%@page import="java.io.BufferedReader"%>
+<%@page import="java.net.HttpURLConnection"%>
+<%@page import="java.net.URL"%>
+<%@page import="java.net.URLEncoder"%>
 <%@page import="MMJ.RestaurantInfo"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -29,34 +36,87 @@
     <table class="table table-bordered table-hover">
         <thead class="thead-dark">
             <tr>
+            	<th>img</th>
                 <th>Title</th>
                 <th>Link</th>
                 <th>Category</th>
-                <th>Address</th>
             </tr>
         </thead>
         <tbody>
             <%
-                List<RestaurantInfo> restaurantList = (List<RestaurantInfo>) request.getAttribute("restaurantList");
-                if (restaurantList != null && !restaurantList.isEmpty()) {
-                    for (RestaurantInfo restaurant : restaurantList) {
-            %>
-            <tr onclick="focusOnMap('<%= restaurant.getAddress() %>', '<%= restaurant.getTitle() %>', '<%= restaurant.getCategory() %>');" class="cursor-pointer">
-                <td><%= restaurant.getTitle() %></td>
-                <td><a href="<%= restaurant.getLink() %>"><%= restaurant.getLink() %></a></td>
-                <td><%= restaurant.getCategory() %></td>
-                <td><%= restaurant.getAddress() %></td>
-            </tr>
-            <%
-                }
-            } else {
-            %>
-            <tr>
-                <td colspan="4">검색 결과가 없습니다.</td>
-            </tr>
-            <%
-                }
-            %>
+			List<RestaurantInfo> restaurantList = (List<RestaurantInfo>) request.getAttribute("restaurantList");
+			if (restaurantList != null && !restaurantList.isEmpty()) {
+			    for (RestaurantInfo restaurant : restaurantList) {
+			        String query = restaurant.getTitle(); // Use restaurant title as the query
+			        query = query.split("\\s", 2)[0];
+			        String imageUrl = null; // Initialize imageUrl for each restaurant
+			
+			        if (query != null && !query.isEmpty()) {
+			            String clientId = "gxCwTW1USgmQU7efK_Dd"; // 네이버 API 클라이언트 아이디
+			            String clientSecret = "faEGSpaPfI"; // 네이버 API 클라이언트 시크릿
+			
+			            try {
+			                query = URLEncoder.encode(query, "UTF-8");
+			                String apiURL = "https://openapi.naver.com/v1/search/image?query=" + query; // 이미지 검색 API
+			                URL url = new URL(apiURL);
+			                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			                con.setRequestMethod("GET");
+			                con.setRequestProperty("X-Naver-Client-Id", clientId);
+			                con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+			
+			                int responseCode = con.getResponseCode();
+			                if (responseCode == 200) { // 정상 호출
+			                    BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			                    String inputLine;
+			                    StringBuffer Response = new StringBuffer();
+			                    while ((inputLine = br.readLine()) != null) {
+			                        Response.append(inputLine);
+			                    }
+			                    br.close();
+			
+			                    // JSON 데이터 파싱
+			                    JSONObject jsonObject = new JSONObject(Response.toString());
+			                    JSONArray itemsArray = jsonObject.getJSONArray("items");
+			
+			                    // 첫 번째 이미지 URL 추출
+			                    if (itemsArray.length() > 0) {
+			                        JSONObject firstItem = itemsArray.getJSONObject(0);
+			                        imageUrl = firstItem.getString("link");
+			                    }
+			                }
+			            } catch (Exception e) {
+			                e.printStackTrace();
+			            }
+			        }
+			%>
+			<tr onclick="focusOnMap('<%= restaurant.getAddress() %>', '<%= restaurant.getTitle() %>', '<%= restaurant.getCategory() %>');" class="cursor-pointer">
+			    <td>
+			    <%
+			    if(imageUrl != null) {
+			    %>
+			    <img src="<%= imageUrl %>" width="100" height="100">
+			    <%
+			    } else {
+			    %>
+			    <a>대충 고양이 로고</a>
+			    <%
+			    }
+			    %>
+			    </td>
+			    <td><%= restaurant.getTitle() %></td>
+			    <td><a href="<%= restaurant.getLink() %>"><%= restaurant.getLink() %></a></td>
+			    <td><%= restaurant.getCategory() %></td>
+			</tr>
+			<%
+			    }
+			} else {
+			%>
+			<tr>
+			    <td colspan="4">검색 결과가 없습니다.</td>
+			</tr>
+			<%
+			}
+			%>
         </tbody>
     </table>
 </div>

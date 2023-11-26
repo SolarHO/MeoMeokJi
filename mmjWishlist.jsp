@@ -52,14 +52,13 @@
                 <!-- Select Box for Wishlist Actions -->
                 <div class="form-group">
                     <select class="form-control" id="wishlistAction" onchange="loadSelectedPage()">
-                        <option value="wishlistSearch.jsp">위시리스트 검색</option>
+                        <option value="selectMyWishlist.jsp">위시리스트 검색</option>
                         <option value="createWishlist.jsp">위시리스트 생성</option>
                         <option value="editWishlist.jsp">위시리스트 수정</option>
                     </select>
                 </div>
-                <div id="dynamicContent" class="mt-4"></div> <!-- 불러오는 페이지를 표시할 div영역 -->
+                <div id="dynamicContent" class="mt-4"></div>
             </div>
-
             <!-- Right Area (70%) -->
             <div class="col-md-8">
                 <jsp:include page="map.jsp" flush="false"/>
@@ -115,6 +114,62 @@
 	            loadSelectedPage();
 	        });
 	    });
+	
+	    function handleWishlistClick(wishlistId) {
+	        $.ajax({
+	            type: 'POST',
+	            url: 'saveMyWishlistID.jsp',
+	            data: { selectedWishlistId: wishlistId },
+	            success: function () {
+	            	loaddynamicPage("selectOtherWishlist.jsp");
+	            },
+	            error: function (xhr, status, error) {
+	                console.error("Failed to save selected wishlistId in session. Status: " + status + ", Error: " + error);
+	            }
+	        });
+	    }
+	    
+	    function loaddynamicPage(page) {
+	        $.ajax({
+	            type: 'GET',
+	            url: page,
+	            success: function (response) {
+	                // Update the dynamicContent area with the loaded content
+	                $("#dynamicContent").html(response);
+	            },
+	            error: function (xhr, status, error) {
+	                console.error("Failed to load the selected page. Status: " + status + ", Error: " + error);
+	            }
+	        });
+	    }
+	    function loadResultPage(page) {
+	        $.ajax({
+	            type: 'GET',
+	            url: page,
+	            success: function (response) {
+	                // Update the dynamicContent area with the loaded content
+	                $("#dynamicContent").html(response);
+	            },
+	            error: function (xhr, status, error) {
+	                console.error("Failed to load the selected page. Status: " + status + ", Error: " + error);
+	            }
+	        });
+	    }
+	    
+	    function handleWishlistClick2(wishlistId) {
+	        // Save the selected wishlistId in session
+	        $.ajax({
+	            type: 'POST',
+	            url: 'saveOtherWishlist.jsp',
+	            data: { selectedWishlistId: wishlistId },
+	            success: function () {
+	            	location.href = 'mmjSearch.jsp';
+	            },
+	            error: function (xhr, status, error) {
+	                console.error("Failed to save selected wishlistId in session. Status: " + status + ", Error: " + error);
+	            }
+	        });
+	    }
 	</script>
 
 </body>

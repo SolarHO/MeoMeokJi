@@ -29,7 +29,7 @@
             out.println("회원 탈퇴가 완료되었습니다.");
             // 세션을 종료하여 로그아웃 상태로 변경
             response.setContentType("text/html;charset=UTF-8");
-    		response.getWriter().println("<script>alert('회원탈퇴되었습니다 행복하세요.'); setTimeout(function(){ window.location.href='logout.jsp'; }, 500);</script>");
+    		response.getWriter().println("<script>alert('회원탈퇴되었습니다 행복하세요.'); setTimeout(function(){ window.location.href='logout.jsp'; }, 300);</script>");
         } else {
             out.println("회원 탈퇴에 실패하였습니다.");
         }

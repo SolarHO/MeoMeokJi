@@ -51,6 +51,7 @@ button {
   background-color: white;
   text-align: center;
   margin-top: 100px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 6);
 }
 
 /* .login_window>welcome-to-meomeokji {
@@ -81,7 +82,7 @@ button {
   width: 15%;
   height: 50px;
   border-radius: 10px;
-  background-color: #6358DC;
+  background-color: #BDBDBD;
   color: white;
   font-size: 18px;
 }
@@ -203,10 +204,16 @@ button {
   object-fit: cover;
 }
 
+.labelname{
+ font-size: 28px;
+}
 </style>
 </head>
 <body>
-   
+  <%  String userName = (String) session.getAttribute("name");
+        
+        // 환영 메시지 생성
+        String welcomeMessage = "환영합니다, " + userName + "님!"; %>
      <div class="wrap">
         <div class="background">
         </div>
@@ -220,10 +227,18 @@ button {
                     <span class="welcome-to">Welcome to<br /></span>
                     <span class="MeoMeoKji">MeoMeoKji<br /></span>
                   </p>
-                  <img class="logo-meo" src="img/logomeo.png" />
+                  <a href="index.jsp">
+                  <img class="logo-meo" src="img/logomeo.png" /></a>
                 </div>
               </div>
               <br><br><br>
+              <div class="email">
+                    <div class="overlap-group">
+                     
+                      <div class="text-wrapper"></div>
+                      <label style="font-size: 28px;" ><%= welcomeMessage %> </label>
+                    </div>
+                </div><br><br>
             <form action="updateuser.jsp" method="post"  onsubmit="return validateForm()" accept-charset="UTF-8">
                 <!-- form action = "#" <로그인 처리페이지로 이동 -->
                 <div class="name">

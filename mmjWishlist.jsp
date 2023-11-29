@@ -2,15 +2,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<!-- Bootstrap CSS 추가 -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>MMJ</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
     <%
 		String userID = null;
+    	String userName = (String)session.getAttribute("name");
 		if(session.getAttribute("id") != null) {
 			userID = (String) session.getAttribute("id");
 		} else {
@@ -21,10 +23,9 @@
 	<%		
 		}
 	%>
-
-<!-- Navigation Bar -->
+	<!-- Navigation Bar -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">MMJ</a>
+    <a class="navbar-brand" href="mmjSearch.jsp">MMJ</a>
     	<ul class="nav navbar-nav navbar-right">
         	<li class="dropdown">
           		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">회원관리<span class="caret"></span></a>
@@ -41,14 +42,6 @@
         <div class="row">
             <!-- Left Area (30%) -->
             <div class="col-md-4">
-                <!-- Additional Buttons -->
-                <div class="d-flex justify-content-center mb-2">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-primary" onclick="searchFunction()">검색</button>
-                        <button type="button" class="btn btn-primary" onclick="wishlistFunction()">위시리스트</button>
-                    </div>
-                </div>
-
                 <!-- Select Box for Wishlist Actions -->
                 <div class="form-group">
                     <select class="form-control" id="wishlistAction" onchange="loadSelectedPage()">
@@ -70,7 +63,7 @@
     <!-- Bootstrap JS와 jQuery를 포함하기 (jQuery를 Bootstrap JS보다 먼저 포함) -->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	
 	<!-- Bootstrap 토글 버튼 관련 스크립트 추가 -->
 	<script>
@@ -163,7 +156,7 @@
 	            url: 'saveOtherWishlist.jsp',
 	            data: { selectedWishlistId: wishlistId },
 	            success: function () {
-	            	location.href = 'mmjSearch.jsp';
+	            	location.href = 'mmjWishlistResult.jsp';
 	            },
 	            error: function (xhr, status, error) {
 	                console.error("Failed to save selected wishlistId in session. Status: " + status + ", Error: " + error);
